@@ -157,9 +157,10 @@ async function addWeightedTrackToQueue(): Promise<boolean> {
 
     try {
         const trackUri = await selectWeightedRandomTrack();
-        if (!trackUri || trackUri === lastWeightedTrackUri) return false;
+        if (!trackUri) return false;
 
         await Spicetify.addToQueue([{ uri: trackUri }]);
+        console.log("I ran:", trackUri);
 
         lastWeightedTrackUri = trackUri;
         return true;
@@ -174,39 +175,17 @@ function shouldAddWeightedTrack(): boolean {
     return getQueuedTracks().length == 0;
 }
 
-let weightedTimer: number | null = null;
-let lastEnqueueAt = 0;
-
-function startWeightedLoop() {
-    stopWeightedLoop();
-    const tick = async () => {
+async function weightedLoop() {
+    while (true) {
         try {
-            if (!weightedPlaybackEnabled) return;
-
-            // small debounce: don’t enqueue too often in case the queue UI lags
-            if (Date.now() - lastEnqueueAt < 2500) {
-                weightedTimer = window.setTimeout(tick, 800);
-                return;
-            }
-
-            if (shouldAddWeightedTrack()) {
-                const added = await addWeightedTrackToQueue();
-                if (added) lastEnqueueAt = Date.now();
+            if (weightedPlaybackEnabled && shouldAddWeightedTrack()) {
+                await addWeightedTrackToQueue();
             }
         } catch (e) {
-            console.error("[weighted] tick error:", e);
-        } finally {
-            if (weightedPlaybackEnabled) {
-                weightedTimer = window.setTimeout(tick, 2000); // steady heartbeat
-            }
+            console.error("Weighted loop error:", e);
         }
-    };
-    tick();
-}
-
-function stopWeightedLoop() {
-    if (weightedTimer) clearTimeout(weightedTimer);
-    weightedTimer = null;
+        await new Promise((r) => setTimeout(r, 1000));
+    }
 }
 
 async function createWeightedShufflePlaylist(originalPlaylistUri: string, trackCount: number): Promise<any> {
@@ -743,12 +722,6 @@ async function observerCallback(keys) {
 
             weightedShuffleButton.title = weightedPlaybackEnabled ? "Disable Weighted Shuffle" : "Enable Weighted Shuffle";
 
-            if (weightedPlaybackEnabled) {
-                startWeightedLoop();
-            } else {
-                stopWeightedLoop();
-            }
-
             api.showNotification(weightedPlaybackEnabled ? "Weighted shuffle enabled" : "Weighted shuffle disabled");
         });
 
@@ -983,6 +956,8 @@ async function main() {
         childList: true,
         subtree: true,
     });
+
+    weightedLoop();
 }
 
 export default main;
