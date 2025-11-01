@@ -253,16 +253,11 @@ async function createWeightedShufflePlaylist(originalPlaylistUri: string, trackC
 }
 
 function selectWeightedTracks(tracks: Array<{ uri: string; weight: number }>, count: number): Array<{ uri: string; weight: number }> {
-    if (tracks.length <= count) {
-        return tracks;
-    }
+    const selected: Array<{ uri: string; weight: number }> = [];
 
-    const selected = [];
-    const availableTracks = [...tracks];
-
-    for (let i = 0; i < count && availableTracks.length > 0; i++) {
+    for (let i = 0; i < count; i++) {
         // Calculate total weight of remaining tracks
-        const totalWeight = availableTracks.reduce((sum, track) => sum + track.weight, 0);
+        const totalWeight = tracks.reduce((sum, track) => sum + track.weight, 0);
 
         if (totalWeight <= 0) break;
 
@@ -270,23 +265,12 @@ function selectWeightedTracks(tracks: Array<{ uri: string; weight: number }>, co
         let randomValue = Math.random() * totalWeight;
 
         // Find the track that corresponds to this random value
-        let selectedTrack = null;
-        for (let j = 0; j < availableTracks.length; j++) {
-            randomValue -= availableTracks[j].weight;
+        for (const track of tracks) {
+            randomValue -= track.weight;
             if (randomValue <= 0) {
-                selectedTrack = availableTracks[j];
-                availableTracks.splice(j, 1);
+                selected.push(track);
                 break;
             }
-        }
-
-        // If we didn't find a track due to floating point precision issues, pick the last one
-        if (!selectedTrack && availableTracks.length > 0) {
-            selectedTrack = availableTracks.pop();
-        }
-
-        if (selectedTrack) {
-            selected.push(selectedTrack);
         }
     }
 
