@@ -140,9 +140,11 @@ function selectWeightedRandomTrack(): Promise<string | null> {
 
 function getQueuedTracks(): Array<{ uri: string }> {
     try {
-        return Spicetify.Queue.nextTracks.map((track) => ({
-            uri: track.contextTrack.uri,
-        }));
+        return Spicetify.Queue.nextTracks
+            .filter((track) => track.provider === "queue")
+            .map((track) => ({
+                uri: track.contextTrack.uri,
+            }));
     } catch (e) {
         console.log("Failed to get queued tracks:", e);
         return [];
