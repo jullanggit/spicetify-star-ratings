@@ -15,47 +15,38 @@ export function Button({ name, className, onButtonClick }) {
     );
 }
 
-function NumberInput({ value, onChange, min = 1, max = 100 }) {
+function NumberInput({ value, onChange }) {
     return (
         <div className="weighted-playlist-input-container">
             <input
-                type="number"
-                min={min}
-                max={max}
+                type="text"
                 value={value}
                 onChange={onChange}
                 className="weighted-playlist-input"
+                placeholder="Enter number of tracks (e.g., 100, 500, 1000)"
             />
-            <div className="weighted-playlist-input-controls">
-                <button 
-                    type="button" 
-                    className="weighted-playlist-input-btn"
-                    onClick={() => onChange(Math.min(max, value + 1))}
-                >
-                    +
-                </button>
-                <button 
-                    type="button" 
-                    className="weighted-playlist-input-btn"
-                    onClick={() => onChange(Math.max(min, value - 1))}
-                >
-                    −
-                </button>
-            </div>
         </div>
     );
 }
 
 export function WeightedPlaylistModal({ onClickCancel, onClickCreate }: WeightedPlaylistModalProps) {
-    const [trackCount, setTrackCount] = React.useState(10);
-    const [playlistName, setPlaylistName] = React.useState("");
+    const [trackCountInput, setTrackCountInput] = React.useState("10");
 
-    function handleCreate() {
-        onClickCreate(trackCount);
+    function handleTrackCountChange(value: string) {
+        setTrackCountInput(value);
     }
 
-    // Generate suggested numbers based on common playlist sizes
-    const suggestedCounts = [5, 10, 20, 25, 50, 100];
+    function handleCreate() {
+        const count = parseInt(trackCountInput);
+        if (isNaN(count) || count <= 0) {
+            alert("Please enter a valid positive number");
+            return;
+        }
+        onClickCreate(count);
+    }
+
+    // Generate suggested numbers including larger options
+    const suggestedCounts = [10, 25, 50, 100, 250, 500, 1000, 2000, 5000];
 
     return (
         <div className="weighted-playlist-modal">
@@ -71,10 +62,8 @@ export function WeightedPlaylistModal({ onClickCancel, onClickCreate }: Weighted
                         Number of tracks:
                     </label>
                     <NumberInput 
-                        value={trackCount} 
-                        onChange={setTrackCount}
-                        min={1}
-                        max={100}
+                        value={trackCountInput} 
+                        onChange={handleTrackCountChange}
                     />
                 </div>
 
@@ -84,8 +73,8 @@ export function WeightedPlaylistModal({ onClickCancel, onClickCreate }: Weighted
                         {suggestedCounts.map(count => (
                             <button
                                 key={count}
-                                className={`weighted-playlist-suggested-btn ${trackCount === count ? 'active' : ''}`}
-                                onClick={() => setTrackCount(count)}
+                                className={`weighted-playlist-suggested-btn ${trackCountInput === count.toString() ? 'active' : ''}`}
+                                onClick={() => setTrackCountInput(count.toString())}
                             >
                                 {count}
                             </button>
@@ -95,7 +84,7 @@ export function WeightedPlaylistModal({ onClickCancel, onClickCreate }: Weighted
 
                 <div className="weighted-playlist-preview">
                     <span className="weighted-playlist-preview-text">
-                        Preview: Your playlist will contain {trackCount} tracks, 
+                        Preview: Your playlist will contain {trackCountInput} tracks, 
                         selected randomly based on ratings with higher-rated tracks having higher probability.
                     </span>
                 </div>

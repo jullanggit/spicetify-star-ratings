@@ -51,7 +51,6 @@
 .weighted-playlist-input-container {
     display: flex;
     align-items: center;
-    gap: 8px;
 }
 
 .weighted-playlist-input {
@@ -61,8 +60,8 @@
     padding: 8px 12px;
     color: var(--text-base, #ffffff);
     font-size: 14px;
-    width: 80px;
-    text-align: center;
+    width: 200px;
+    text-align: left;
     font-family: "Inter", sans-serif;
 }
 
@@ -72,30 +71,8 @@
     box-shadow: 0 0 0 1px var(--background-tinted-accent, #1db954);
 }
 
-.weighted-playlist-input-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.weighted-playlist-input-btn {
-    background-color: var(--background-tinted-base, #535353);
-    border: none;
-    border-radius: 2px;
-    color: var(--text-base, #ffffff);
-    width: 24px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
-}
-
-.weighted-playlist-input-btn:hover {
-    background-color: var(--background-tinted-hover, #6a6a6a);
+.weighted-playlist-input::placeholder {
+    color: var(--text-subdued, #b3b3b3);
 }
 
 .weighted-playlist-suggested {
