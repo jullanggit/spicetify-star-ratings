@@ -50,7 +50,6 @@ let ratingsLoading = false;
 let isSorting = false;
 
 let weightedPlaybackEnabled = false;
-let lastWeightedTrackUri = null;
 
 const PLAYLIST_SIZE_LIMIT = 8000; // Maximum tracks per playlist
 
@@ -174,7 +173,6 @@ async function addWeightedTrackToQueue(): Promise<boolean> {
             }
         })();
 
-        lastWeightedTrackUri = trackUri;
         return true;
     } catch (error) {
         console.error("Error adding weighted track to queue:", error);
@@ -196,7 +194,7 @@ async function weightedLoop() {
         } catch (e) {
             console.error("Weighted loop error:", e);
         }
-        await new Promise((r) => setTimeout(r, 1000));
+        await new Promise((r) => setTimeout(r, 1500));
     }
 }
 
