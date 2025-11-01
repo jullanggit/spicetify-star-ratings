@@ -932,7 +932,7 @@ async function main() {
             const playlistUri = uri[0];
             Spicetify.PopupModal.display({
                 title: "Create Weighted Shuffle Playlist",
-                content: WeightedPlaylistModal({
+                content: Spicetify.React.createElement(WeightedPlaylistModal, {
                     onClickCancel: () => {
                         Spicetify.PopupModal.hide();
                     },
