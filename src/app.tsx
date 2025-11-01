@@ -89,6 +89,8 @@ function selectWeightedRandomTrack(): Promise<string | null> {
                     uri: track.uri,
                     link: track.uri,
                 }));
+            } else if (currentContext.uri.includes("collection")) {
+                availableTracks = await api.getLikedSongsTracks();
             } else {
                 resolve(null);
                 return;

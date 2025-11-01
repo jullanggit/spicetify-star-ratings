@@ -137,24 +137,43 @@ export async function getTracksWithSameISRC(uri: string) {
 }
 
 export async function getPlaylistTracks(playlistUri: string) {
-    const playlistId = playlistUri.split(':').pop();
+    const playlistId = playlistUri.split(":").pop();
     const tracks = await Spicetify.CosmosAsync.get(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`);
-    return tracks.items.map(item => ({
+    return tracks.items.map((item) => ({
         uri: item.track.uri,
         link: item.track.uri,
         name: item.track.name,
-        artists: item.track.artists.map(artist => artist.name).join(', ')
+        artists: item.track.artists.map((artist) => artist.name).join(", "),
     }));
 }
 
+export async function getLikedSongsTracks(): Promise<Array<{ uri: string; link: string }>> {
+    const pagesize = 50;
+    let offset = 0;
+    let out: Array<{ uri: string; link: string }> = [];
+
+    while (true) {
+        const res = await Spicetify.CosmosAsync.get(`https://api.spotify.com/v1/me/tracks?limit=${pagesize}&offset=${offset}&market=from_token`);
+        const items = res?.items || [];
+        if (!items.length) break; // all items fetched
+
+        for (const item of items) {
+            const uri = item?.track?.uri;
+            if (uri) out.push({ uri, link: uri });
+        }
+        offset += items.length;
+    }
+    return out;
+}
+
 export async function getPlaylist(playlistUri: string) {
-    const playlistId = playlistUri.split(':').pop();
+    const playlistId = playlistUri.split(":").pop();
     return await Spicetify.CosmosAsync.get(`https://api.spotify.com/v1/playlists/${playlistId}`);
 }
 
 export async function addTracksToPlaylist(playlistUri: string, trackUris: string[]) {
-    const playlistId = playlistUri.split(':').pop();
+    const playlistId = playlistUri.split(":").pop();
     await Spicetify.CosmosAsync.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-        uris: trackUris
+        uris: trackUris,
     });
 }
