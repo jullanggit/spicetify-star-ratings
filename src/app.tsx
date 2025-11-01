@@ -68,7 +68,7 @@ function selectWeightedRandomTrack(): Promise<string | null> {
     return new Promise(async (resolve) => {
         try {
             // Get current context (playlist, album, etc.)
-            const currentContext = Spicetify.Player?.data?.context?.uri || Spicetify.Player?.data?.item?.context?.uri || null;
+            const currentContext = Spicetify.Player?.data?.context || Spicetify.Player?.data?.item?.context || null;
 
             if (!currentContext || !currentContext.uri) {
                 resolve(null);
