@@ -9,6 +9,7 @@ export function getSettings() {
         nowPlayingStarsPosition: "left",
         skipThreshold: "disabled",
         syncDuplicateSongs: false,
+        defaultRating: "2.5",
     };
     settings = {};
     try {

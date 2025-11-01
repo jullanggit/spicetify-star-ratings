@@ -135,3 +135,26 @@ export async function getTracksWithSameISRC(uri: string) {
     const response = await Spicetify.CosmosAsync.get(`https://api.spotify.com/v1/search`, query);
     return response.tracks.items;
 }
+
+export async function getPlaylistTracks(playlistUri: string) {
+    const playlistId = playlistUri.split(':').pop();
+    const tracks = await Spicetify.CosmosAsync.get(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`);
+    return tracks.items.map(item => ({
+        uri: item.track.uri,
+        link: item.track.uri,
+        name: item.track.name,
+        artists: item.track.artists.map(artist => artist.name).join(', ')
+    }));
+}
+
+export async function getPlaylist(playlistUri: string) {
+    const playlistId = playlistUri.split(':').pop();
+    return await Spicetify.CosmosAsync.get(`https://api.spotify.com/v1/playlists/${playlistId}`);
+}
+
+export async function addTracksToPlaylist(playlistUri: string, trackUris: string[]) {
+    const playlistId = playlistUri.split(':').pop();
+    await Spicetify.CosmosAsync.post(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+        uris: trackUris
+    });
+}

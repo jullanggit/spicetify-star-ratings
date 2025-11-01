@@ -166,6 +166,24 @@ export function Settings({
                 }
                 field="syncDuplicateSongs"
             />
+            <DropdownItem
+                settings={settings}
+                name="Default rating for unrated songs"
+                field="defaultRating"
+                options={{
+                    "0.0": "0.0",
+                    "0.5": "0.5",
+                    "1.0": "1.0",
+                    "1.5": "1.5",
+                    "2.0": "2.0",
+                    "2.5": "2.5",
+                    "3.0": "3.0",
+                    "3.5": "3.5",
+                    "4.0": "4.0",
+                    "4.5": "4.5",
+                    "5.0": "5.0",
+                }}
+            />
             <Heading value="Keyboard Shortcuts" />
             <ul>
                 <KeyboardShortcutDescription label="Rate current track 0.5 stars" numberKey="1" />
