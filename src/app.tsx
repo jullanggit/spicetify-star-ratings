@@ -101,7 +101,7 @@ function selectWeightedRandomTrack(): Promise<string | null> {
 
             // Filter out tracks that are already in queue or currently playing
             const currentTrackUri = Spicetify.Player.data.item?.uri;
-            const queuedTracks = await getQueuedTracks();
+            const queuedTracks = getQueuedTracks();
 
             const eligibleTracks = availableTracks.filter(
                 (track) => track.link !== currentTrackUri && !queuedTracks.some((queued) => queued.uri === track.link),
@@ -138,11 +138,13 @@ function selectWeightedRandomTrack(): Promise<string | null> {
     });
 }
 
-async function getQueuedTracks(): Promise<Array<{ uri: string }>> {
+function getQueuedTracks(): Array<{ uri: string }> {
     try {
-        const queueData = await Spicetify.CosmosAsync.get("sp://player/v1/queue");
-        return queueData?.queue || [];
-    } catch {
+        return Spicetify.Queue.nextTracks.map((track) => ({
+            uri: track.contextTrack.uri,
+        }));
+    } catch (e) {
+        console.log("Failed to get queued tracks:", e);
         return [];
     }
 }
@@ -169,7 +171,7 @@ async function addWeightedTrackToQueue(): Promise<boolean> {
 
 async function shouldAddWeightedTrack(): Promise<boolean> {
     // Only add weighted tracks if there's no existing queue not created by us
-    const queue = await getQueuedTracks();
+    const queue = getQueuedTracks();
 
     // If queue is empty or only has our weighted tracks, we can add more
     return queue.length <= 1;
