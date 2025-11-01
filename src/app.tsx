@@ -50,7 +50,6 @@ let ratingsLoading = false;
 let isSorting = false;
 
 let weightedPlaybackEnabled = false;
-let weightedPlaybackActive = false;
 let lastWeightedTrackUri = null;
 
 const PLAYLIST_SIZE_LIMIT = 8000; // Maximum tracks per playlist
@@ -179,7 +178,7 @@ async function shouldAddWeightedTrack(): Promise<boolean> {
 }
 
 async function handleWeightedPlayback(): Promise<void> {
-    if (!weightedPlaybackEnabled || !weightedPlaybackActive) return;
+    if (!weightedPlaybackEnabled) return;
 
     try {
         if (await shouldAddWeightedTrack()) {
@@ -724,12 +723,9 @@ async function observerCallback(keys) {
 
             weightedShuffleButton.title = weightedPlaybackEnabled ? "Disable Weighted Shuffle" : "Enable Weighted Shuffle";
 
-            // Initialize weighted playback if enabled
-            if (weightedPlaybackEnabled && !weightedPlaybackActive) {
-                weightedPlaybackActive = true;
+            weightedPlaybackEnabled != weightedPlaybackEnabled;
+            if (weightedPlaybackEnabled) {
                 handleWeightedPlayback();
-            } else if (!weightedPlaybackEnabled) {
-                weightedPlaybackActive = false;
             }
 
             api.showNotification(weightedPlaybackEnabled ? "Weighted shuffle enabled" : "Weighted shuffle disabled");
