@@ -169,19 +169,16 @@ async function addWeightedTrackToQueue(): Promise<boolean> {
     }
 }
 
-async function shouldAddWeightedTrack(): Promise<boolean> {
-    // Only add weighted tracks if there's no existing queue not created by us
-    const queue = getQueuedTracks();
-
-    // If queue is empty or only has our weighted tracks, we can add more
-    return queue.length <= 1;
+function shouldAddWeightedTrack(): boolean {
+    // Only add weighted tracks if there's no existing queue
+    return getQueuedTracks().length == 0;
 }
 
 async function handleWeightedPlayback(): Promise<void> {
     if (!weightedPlaybackEnabled) return;
 
     try {
-        if (await shouldAddWeightedTrack()) {
+        if (shouldAddWeightedTrack()) {
             await addWeightedTrackToQueue();
         }
     } catch (error) {
@@ -723,7 +720,6 @@ async function observerCallback(keys) {
 
             weightedShuffleButton.title = weightedPlaybackEnabled ? "Disable Weighted Shuffle" : "Enable Weighted Shuffle";
 
-            weightedPlaybackEnabled != weightedPlaybackEnabled;
             if (weightedPlaybackEnabled) {
                 handleWeightedPlayback();
             }
