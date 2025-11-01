@@ -68,7 +68,8 @@ function selectWeightedRandomTrack(): Promise<string | null> {
     return new Promise(async (resolve) => {
         try {
             // Get current context (playlist, album, etc.)
-            const currentContext = Spicetify.Player.getContext();
+            const currentContext = Spicetify.Player?.data?.context?.uri || Spicetify.Player?.data?.item?.context?.uri || null;
+
             if (!currentContext || !currentContext.uri) {
                 resolve(null);
                 return;
@@ -728,7 +729,7 @@ async function observerCallback(keys) {
                 weightedPlaybackActive = false;
             }
 
-            showNotification(weightedPlaybackEnabled ? "Weighted shuffle enabled" : "Weighted shuffle disabled");
+            api.showNotification(weightedPlaybackEnabled ? "Weighted shuffle enabled" : "Weighted shuffle disabled");
         });
 
         shuffleButton.parentNode.insertBefore(weightedShuffleButton, shuffleButton.nextSibling);
