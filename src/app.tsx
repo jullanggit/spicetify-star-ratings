@@ -160,10 +160,7 @@ async function addWeightedTrackToQueue(): Promise<boolean> {
         const trackUri = await selectWeightedRandomTrack();
         if (!trackUri || trackUri === lastWeightedTrackUri) return false;
 
-        await Spicetify.CosmosAsync.post("sp://player/v1/queue", {
-            trackUri: trackUri,
-            playNow: false,
-        });
+        await Spicetify.addToQueue([{ uri: trackUri }]);
 
         lastWeightedTrackUri = trackUri;
         return true;
