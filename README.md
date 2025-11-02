@@ -22,6 +22,15 @@ Settings, such as enabling/disabling half star ratings, can be accessed from the
 * [] option to show rateyourmusic ratings
 * [] option to upload ratings to rateyourmusic (they only do albums)
 
+## Weighted Playback
+- Always keeps one weighted random track in queue.
+- Workaround for remote-play issues can be enabled in the settings.
+
+## Weighted Playlist
+- Create a weighted version of a Playlist.
+- Contains N random items from the original Playlist, weighted by their ratings.
+- Can be used as an 'offline' weighted playback.
+
 ## Star Rating Playlist Images
 
 <table>

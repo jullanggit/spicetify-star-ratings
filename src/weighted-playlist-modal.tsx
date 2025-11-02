@@ -51,29 +51,23 @@ export function WeightedPlaylistModal({ onClickCancel, onClickCreate }: Weighted
     return (
         <div className="weighted-playlist-modal">
             <div className="weighted-playlist-modal-content">
-                <h3 className="weighted-playlist-modal-title">Create Weighted Shuffle Playlist</h3>
+                <h3 className="weighted-playlist-modal-title">Create Weighted Playlist</h3>
                 <p className="weighted-playlist-modal-description">
-                    Select how many tracks you want in your weighted shuffle playlist. 
-                    Tracks will be chosen using the same weighted random selection as the queue system.
+                    Select how many tracks you want in your weighted playlist. Tracks will be chosen randomly, weighted by their rating.
                 </p>
-                
+
                 <div className="weighted-playlist-input-section">
-                    <label className="weighted-playlist-label">
-                        Number of tracks:
-                    </label>
-                    <NumberInput 
-                        value={trackCountInput} 
-                        onChange={handleTrackCountChange}
-                    />
+                    <label className="weighted-playlist-label">Number of tracks:</label>
+                    <NumberInput value={trackCountInput} onChange={handleTrackCountChange} />
                 </div>
 
                 <div className="weighted-playlist-suggested">
                     <span className="weighted-playlist-suggested-label">Suggested:</span>
                     <div className="weighted-playlist-suggested-buttons">
-                        {suggestedCounts.map(count => (
+                        {suggestedCounts.map((count) => (
                             <button
                                 key={count}
-                                className={`weighted-playlist-suggested-btn ${trackCountInput === count.toString() ? 'active' : ''}`}
+                                className={`weighted-playlist-suggested-btn ${trackCountInput === count.toString() ? "active" : ""}`}
                                 onClick={() => setTrackCountInput(count.toString())}
                             >
                                 {count}
@@ -84,8 +78,7 @@ export function WeightedPlaylistModal({ onClickCancel, onClickCreate }: Weighted
 
                 <div className="weighted-playlist-preview">
                     <span className="weighted-playlist-preview-text">
-                        Preview: Your playlist will contain {trackCountInput} tracks, 
-                        selected randomly based on ratings with higher-rated tracks having higher probability.
+                        Preview: Your playlist will contain {trackCountInput} tracks, selected randomly, weighted by their rating.
                     </span>
                 </div>
 

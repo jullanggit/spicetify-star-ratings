@@ -227,7 +227,7 @@ async function createWeightedShufflePlaylist(originalPlaylistUri: string, trackC
                 }
             }
             if (!weightedPlaylist) {
-                throw new Error("Unable to create weighted shuffle playlist");
+                throw new Error("Unable to create weighted playlist");
             }
         }
 
@@ -265,7 +265,7 @@ async function createWeightedShufflePlaylist(originalPlaylistUri: string, trackC
 
         return weightedPlaylist;
     } catch (error) {
-        console.error("Error creating weighted shuffle playlist:", error);
+        console.error("Error creating weighted playlist:", error);
         return null;
     }
 }
@@ -933,29 +933,29 @@ async function main() {
     ).register();
 
     new Spicetify.ContextMenu.Item(
-        "Create weighted shuffle",
+        "Create weighted Playlist",
         (uri) => {
             const playlistUri = uri[0];
             Spicetify.PopupModal.display({
-                title: "Create Weighted Shuffle Playlist",
+                title: "Create Weighted Playlist",
                 content: Spicetify.React.createElement(WeightedPlaylistModal, {
                     onClickCancel: () => {
                         Spicetify.PopupModal.hide();
                     },
                     onClickCreate: async (trackCount) => {
                         Spicetify.PopupModal.hide();
-                        api.showNotification("Creating weighted shuffle...");
+                        api.showNotification("Creating weighted playlist...");
 
                         try {
                             const weightedPlaylist = await createWeightedShufflePlaylist(playlistUri, trackCount);
                             if (weightedPlaylist) {
-                                api.showNotification(`Weighted shuffle playlist created with ${trackCount} tracks!`);
+                                api.showNotification(`Weighted Playlist created with ${trackCount} tracks!`);
                             } else {
-                                api.showNotification("Failed to create weighted shuffle playlist");
+                                api.showNotification("Failed to create weighted Playlist");
                             }
                         } catch (error) {
-                            console.error("Error creating weighted shuffle playlist:", error);
-                            api.showNotification("Error creating weighted shuffle playlist");
+                            console.error("Error creating weighted Playlist:", error);
+                            api.showNotification("Error creating weighted Playlist");
                         }
                     },
                 }),

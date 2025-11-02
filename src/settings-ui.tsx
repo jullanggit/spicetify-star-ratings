@@ -190,7 +190,7 @@ export function Settings({
                     <>
                         Re-enqueue workaround
                         <br />
-                        Workaround for a remote-play issue. Re-enqueues song after 1s, it it hasn't been enqueued by then.
+                        Workaround for a remote-play issue. Re-enqueues song after 1s, if necessary.
                     </>
                 }
                 field="reEnqueueWorkaround"
