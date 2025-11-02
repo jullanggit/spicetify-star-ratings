@@ -161,14 +161,16 @@ async function addWeightedTrackToQueue(): Promise<boolean> {
         await Spicetify.addToQueue([{ uri: trackUri }]);
 
         // ensure track was actually enqueued, work-around for an issue with remote play
-        await new Promise((r) => setTimeout(r, 1000));
-        if (
-            !getQueuedTracks()
-                .map((track) => track.uri)
-                .includes(trackUri)
-        ) {
-            console.log("Re-enqueueing after 1s:", trackUri);
-            await Spicetify.addToQueue([{ uri: trackUri }]);
+        if (settings.reEnqueueWorkaround) {
+            await new Promise((r) => setTimeout(r, 1000)); // anything significantly shorter than 1s doesn't seem to work
+            if (
+                !getQueuedTracks()
+                    .map((track) => track.uri)
+                    .includes(trackUri)
+            ) {
+                console.log("Re-enqueueing after 1s:", trackUri);
+                await Spicetify.addToQueue([{ uri: trackUri }]);
+            }
         }
 
         return true;
@@ -192,7 +194,13 @@ async function weightedLoop() {
         } catch (e) {
             console.error("Weighted loop error:", e);
         }
-        await new Promise((r) => setTimeout(r, 1500));
+        let timeout;
+        if (settings.reEnqueueWorkaround) {
+            timeout = 1500; // avoid interference with re-enqueueing
+        } else {
+            timeout = 500;
+        }
+        await new Promise((r) => setTimeout(r, timeout));
     }
 }
 

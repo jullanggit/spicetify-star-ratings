@@ -184,6 +184,17 @@ export function Settings({
                     "5.0": "5.0",
                 }}
             />
+            <CheckboxItem
+                settings={settings}
+                name={
+                    <>
+                        Re-enqueue workaround
+                        <br />
+                        Workaround for a remote-play issue. Re-enqueues song after 1s, it it hasn't been enqueued by then.
+                    </>
+                }
+                field="reEnqueueWorkaround"
+            />
             <Heading value="Keyboard Shortcuts" />
             <ul>
                 <KeyboardShortcutDescription label="Rate current track 0.5 stars" numberKey="1" />

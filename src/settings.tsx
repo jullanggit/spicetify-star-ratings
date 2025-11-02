@@ -10,6 +10,7 @@ export function getSettings() {
         skipThreshold: "disabled",
         syncDuplicateSongs: false,
         defaultRating: "2.5",
+        reEnqueueWorkaround: false,
     };
     settings = {};
     try {
