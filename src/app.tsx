@@ -706,8 +706,7 @@ async function observerCallback(keys) {
         weightedShuffleButton.style.cssText = `
             margin-left: 8px;
             background: transparent;
-            border: 1px solid var(--essential-subdued, #878787);
-            border-radius: 50%;
+            border: 0px solid white;
             width: 32px;
             height: 32px;
             display: flex;
@@ -716,15 +715,11 @@ async function observerCallback(keys) {
             cursor: pointer;
             transition: all 0.2s ease;
             color: var(--text-subdued, #6a6a6a);
+            font-size: 16px;
+            font-weight: bold;
         `;
 
-        weightedShuffleButton.innerHTML = `
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                <path d="M13.5 2.5c-.66 0-1.3.26-1.77.73L9.24 5.72h2.76c.41 0 .75.34.75.75s-.34.75-.75.75h-3.16c-.41 0-.75-.34-.75-.75v-3.16c0-.41.34-.75.75-.75s.75.34.75.75v2.76l2.49-2.49c.47-.47 1.11-.73 1.77-.73s1.3.26 1.77.73l1.34 1.34a.25.25 0 0 1-.18.43h-1.6a.75.75 0 0 0-.67.43l-.34.67a.25.25 0 0 1-.23.15h-.76a.25.25 0 0 1-.25-.25v-.67c0-.41-.34-.75-.75-.75s-.75.34-.75.75v.42a.25.25 0 0 1-.23.15h-.84a.25.25 0 0 1-.22-.15l-.34-.67a.75.75 0 0 0-.67-.43H8.67a.75.75 0 0 0-.67.43l-.34.67a.25.25 0 0 1-.23.15H7.1a.25.25 0 0 1-.25-.25V7.8c0-.41-.34-.75-.75-.75s-.75.34-.75.75v.42a.25.25 0 0 1-.23.15H4.28a.25.25 0 0 1-.18-.43l1.34-1.34c.47-.47 1.11-.73 1.77-.73s1.3.26 1.77.73l2.49 2.49V2.25c0-.41.34-.75.75-.75s.75.34.75.75v3.16c0 .41-.34.75-.75.75h-2.76l2.49 2.49c.47.47.73 1.11.73 1.77s-.26 1.3-.73 1.77l-1.34 1.34a.25.25 0 0 1-.43-.18v-1.6a.75.75 0 0 0-.43-.67l-.67-.34a.25.25 0 0 1-.15-.23v-.76c0-.13.1-.25.25-.25h.67c.41 0 .75-.34.75-.75s-.34-.75-.75-.75h-.42a.25.25 0 0 1-.15-.23v-.84c0-.13.1-.25.25-.25h.76c.13 0 .25-.1.25-.25v-.84c0-.13.1-.25.25-.25h.67c.13 0 .25-.1.25-.25v-.76c0-.13.1-.25.25-.25h.84c.13 0 .25-.1.25-.25v-.67c0-.13.1-.25.25-.25h1.6a.25.25 0 0 1 .18.43l-1.34 1.34c-.47.47-1.11.73-1.77.73s-1.3-.26-1.77-.73L8.2 10.22V7.06c0-.41.34-.75.75-.75h3.16c.41 0 .75.34.75.75v2.76l-2.49 2.49c-.47.47-1.11.73-1.77.73s-1.3-.26-1.77-.73l-1.34-1.34a.25.25 0 0 1 .18-.43h1.6c.13 0 .25-.1.25-.25v-.76c0-.13.1-.25.25-.25h.67c.13 0 .25-.1.25-.25v-.84c0-.13.1-.25.25-.25h.84c.13 0 .25-.1.25-.25v-.67c0-.13.1-.25.25-.25h.76c.13 0 .25-.1.25-.25v-.84c0-.13.1-.25.25-.25h1.6c.13 0 .25-.1.25-.25z"/>
-                <path d="M12.82 3.18l-.76-.76-3.03 3.03.76.76 3.03-3.03z"/>
-                <path d="M9.03 6.45l-.76-.76-2.12 2.12.76.76 2.12-2.12z"/>
-            </svg>
-        `;
+        weightedShuffleButton.textContent = `W`;
 
         weightedShuffleButton.title = "Weighted Shuffle";
 
@@ -734,7 +729,7 @@ async function observerCallback(keys) {
             weightedShuffleButton.style.borderColor = weightedPlaybackEnabled
                 ? "var(--background-press, #1db954)"
                 : "var(--essential-subdued, #878787)";
-            weightedShuffleButton.style.color = weightedPlaybackEnabled ? "white" : "var(--text-subdued, #6a6a6a)";
+            weightedShuffleButton.style.color = weightedPlaybackEnabled ? "#1DB954" : "var(--text-subdued, #6a6a6a)";
 
             weightedShuffleButton.title = weightedPlaybackEnabled ? "Disable Weighted Shuffle" : "Enable Weighted Shuffle";
 
