@@ -161,17 +161,15 @@ async function addWeightedTrackToQueue(): Promise<boolean> {
         await Spicetify.addToQueue([{ uri: trackUri }]);
 
         // ensure track was actually enqueued, work-around for an issue with remote play
-        (async () => {
-            try {
-                await new Promise((r) => setTimeout(r, 1000));
-                if (!getQueuedTracks().includes({ uri: trackUri })) {
-                    console.log("Re-enqueueing after 1s:", trackUri);
-                    await Spicetify.addToQueue([{ uri: trackUri }]);
-                }
-            } catch (e) {
-                console.error("Error re-enqueueing:", e);
-            }
-        })();
+        await new Promise((r) => setTimeout(r, 1000));
+        if (
+            !getQueuedTracks()
+                .map((track) => track.uri)
+                .includes(trackUri)
+        ) {
+            console.log("Re-enqueueing after 1s:", trackUri);
+            await Spicetify.addToQueue([{ uri: trackUri }]);
+        }
 
         return true;
     } catch (error) {
