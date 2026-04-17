@@ -1,4 +1,6 @@
-# Spicetify Star Ratings NO LONGER BEING MAINTAINED (sorry: please check out forks)
+UPDATE: Any changes will now be made directly into the upstream repository!
+
+# Spicetify Star Ratings
 Add star ratings to Spotify
 
 ![banner](/imgs/preview.png)
