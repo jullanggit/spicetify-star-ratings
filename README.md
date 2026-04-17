@@ -1,4 +1,4 @@
-UPDATE: Any changes will now be made directly into the upstream repository!
+UPDATE: Any changes will now be made directly into the [upstream repository](https://github.com/brimell/spicetify-star-ratings)!
 
 # Spicetify Star Ratings
 Add star ratings to Spotify
